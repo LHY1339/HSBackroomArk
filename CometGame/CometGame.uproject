@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{0372E5A1-4EEB-7588-5CE2-E48933429AEF}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "CometGame",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
