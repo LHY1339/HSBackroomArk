@@ -38,7 +38,6 @@ void AHSCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	DOREPLIFETIME(AHSCharacter, MaxCharacterEnergy);
 	DOREPLIFETIME(AHSCharacter, CharacterHP);
 	DOREPLIFETIME(AHSCharacter, CharacterEnergy);
-
 }
 
 void AHSCharacter::OnPlayerLeavingGame_Implementation()

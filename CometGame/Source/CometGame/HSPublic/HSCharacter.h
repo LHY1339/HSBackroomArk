@@ -37,12 +37,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Replicated, Category = "CharacterProperty")
 		int32 MaxCharacterHP = 100;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = "CharacterProperty")
-		int32 MaxCharacterEnergy = 100;
-
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "CharacterProperty")
 		int32 CharacterHP = MaxCharacterHP;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = "CharacterProperty")
+		int32 MaxCharacterArmor = 100;
+
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "CharacterProperty")
-		int32 CharacterEnergy = MaxCharacterEnergy;
+		int32 CharacterArmor = MaxCharacterArmor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = "CharacterProperty")
+		int32 MaxCharacterArmor = 100;
+
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "CharacterProperty")
+		int32 CharacterArmor = MaxCharacterArmor;
 };
