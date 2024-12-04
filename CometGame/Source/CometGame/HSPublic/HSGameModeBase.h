@@ -14,4 +14,12 @@ class COMETGAME_API AHSGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void Tick(float DeltaTime) override;
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+public:
+	UPROPERTY(Replicated)
+		float ServerDeltaTime = 1.0f;
 };

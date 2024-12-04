@@ -34,15 +34,32 @@ public:
 	virtual void OnPlayerLeavingGame_Implementation();
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Replicated, Category = "CharacterProperty")
-		int32 MaxCharacterHP = 100;
+	UPROPERTY(Replicated)
+		FVector RepLocation;
 
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "CharacterProperty")
-		int32 CharacterHP = MaxCharacterHP;
+	UPROPERTY(Replicated)
+		FRotator RepRotation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated, Category = "CharacterProperty")
-		int32 MaxCharacterArmor = 100;
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Replication")
+		bool NewRepMovement = true;
 
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "CharacterProperty")
-		int32 CharacterArmor = MaxCharacterArmor;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Replication")
+		int32 NewRepMovementTickRate = 8;
+
+public:
+	UFUNCTION(BlueprintCallable)
+		void SetMaxWalkSpeed(float speed);
+
+private:
+
+	UFUNCTION(Server, Reliable)
+		void __SetMaxWalkSpeed_Server(float speed);
+	virtual void __SetMaxWalkSpeed_Server_Implementation(float speed);
+
+	UFUNCTION(Server, UnReliable)
+		void __UpdateRepTransform_Server(FVector _location_, FRotator _rotation_);
+	virtual void __UpdateRepTransform_Server_Implementation(FVector _location_, FRotator _rotation_);
+
+	void __SmoothTransform();
 };
