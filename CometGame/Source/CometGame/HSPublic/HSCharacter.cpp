@@ -12,7 +12,7 @@ AHSCharacter::AHSCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	SetReplicateMovement(false);
+	SetReplicateMovement(true);
 	bReplicates = true;
 }
 
@@ -27,7 +27,7 @@ void AHSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (NewRepMovement)
+	if (ReplicateMovementNew)
 	{
 		if (IsLocallyControlled())
 		{
@@ -63,7 +63,10 @@ void AHSCharacter::OnPlayerLeavingGame_Implementation()
 void AHSCharacter::SetMaxWalkSpeed(float speed)
 {
 	GetCharacterMovement()->MaxWalkSpeed = speed;
-	__SetMaxWalkSpeed_Server(speed);
+	if (!ReplicateMovementNew)
+	{
+		__SetMaxWalkSpeed_Server(speed);
+	}
 }
 
 void AHSCharacter::__SetMaxWalkSpeed_Server_Implementation(float speed)

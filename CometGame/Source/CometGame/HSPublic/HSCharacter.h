@@ -42,9 +42,9 @@ public:
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Replication")
-		bool NewRepMovement = true;
+		bool ReplicateMovementNew = false;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated, Category = "Replication")
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "Replication")
 		int32 NewRepMovementTickRate = 8;
 
 public:
