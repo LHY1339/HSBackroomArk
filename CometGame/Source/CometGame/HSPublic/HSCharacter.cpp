@@ -4,6 +4,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "HSGameStateBase.h"
 #include "HSCharacter.h"
 
 // Sets default values
@@ -19,7 +20,6 @@ AHSCharacter::AHSCharacter()
 void AHSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -32,6 +32,7 @@ void AHSCharacter::Tick(float DeltaTime)
 		if (IsLocallyControlled())
 		{
 			__UpdateRepTransform_Server(GetActorLocation(), GetActorRotation());
+			__GetServerTickRate();
 		}
 		else
 		{
@@ -44,7 +45,6 @@ void AHSCharacter::Tick(float DeltaTime)
 void AHSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void AHSCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -52,6 +52,7 @@ void AHSCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AHSCharacter, RepLocation);
 	DOREPLIFETIME(AHSCharacter, RepRotation);
+	DOREPLIFETIME(AHSCharacter, NewRepMovementTickRate);
 }
 
 void AHSCharacter::OnPlayerLeavingGame_Implementation()
@@ -86,12 +87,26 @@ void AHSCharacter::__SmoothTransform()
 	);
 	SetActorLocation(_newlocation_);
 
+	float _rotatorspeed_ = UKismetMathLibrary::Abs(UKismetMathLibrary::NormalizedDeltaRotator(GetActorRotation(), RepRotation).Yaw * NewRepMovementTickRate);
+
 	FRotator _newrotation_ = UKismetMathLibrary::RInterpTo_Constant(
 		GetActorRotation(),
 		RepRotation,
 		UGameplayStatics::GetWorldDeltaSeconds(GetWorld()),
-		UKismetMathLibrary::Abs(GetActorRotation().Yaw - RepRotation.Yaw) * NewRepMovementTickRate
+		_rotatorspeed_
 	);
+
+	UE_LOG(LogTemp, Warning, TEXT("InterpSpeed:%f"), _rotatorspeed_);
+
 	SetActorRotation(_newrotation_);
+}
+
+void AHSCharacter::__GetServerTickRate()
+{
+	AHSGameStateBase* state = Cast<AHSGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	if (state)
+	{
+		NewRepMovementTickRate = state->ServerTick;
+	}
 }
 

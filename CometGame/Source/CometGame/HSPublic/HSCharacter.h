@@ -44,7 +44,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Replication")
 		bool NewRepMovement = true;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Replication")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Replicated, Category = "Replication")
 		int32 NewRepMovementTickRate = 8;
 
 public:
@@ -62,4 +62,7 @@ private:
 	virtual void __UpdateRepTransform_Server_Implementation(FVector _location_, FRotator _rotation_);
 
 	void __SmoothTransform();
+
+	void __GetServerTickRate();
+
 };
