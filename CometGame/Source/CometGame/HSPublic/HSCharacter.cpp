@@ -96,8 +96,6 @@ void AHSCharacter::__SmoothTransform()
 		_rotatorspeed_
 	);
 
-	UE_LOG(LogTemp, Warning, TEXT("InterpSpeed:%f"), _rotatorspeed_);
-
 	SetActorRotation(_newrotation_);
 }
 
